@@ -653,3 +653,11 @@ document.getElementById("customer-form").addEventListener("submit", event => {
 renderAll();
 checkAutomaticReminder();
 setInterval(checkAutomaticReminder, 60_000);
+
+if ("serviceWorker" in navigator && window.location.protocol !== "file:") {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {
+      // Ứng dụng vẫn hoạt động bình thường nếu trình duyệt không cho phép lưu ngoại tuyến.
+    });
+  });
+}
