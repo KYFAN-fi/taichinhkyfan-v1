@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0969da">
+  <meta name="description" content="Ứng dụng quản lý và nhắc thu nợ tự động vào ngày 10 hằng tháng.">
+  <title>M10 Thu Nợ</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-grid" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="7" height="7" rx="2" />
+      <rect x="14" y="3" width="7" height="7" rx="2" />
+      <rect x="3" y="14" width="7" height="7" rx="2" />
+      <rect x="14" y="14" width="7" height="7" rx="2" />
+    </symbol>
+    <symbol id="i-users" viewBox="0 0 24 24">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+    </symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="17" rx="3" />
+      <path d="M8 2v4M16 2v4M3 10h18" />
+      <path d="m9 15 2 2 4-4" />
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24">
+      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />
+    </symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3" />
+      <path
+        d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.55V21h-4v-.08a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3v-4h.08a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3h4v.08a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.55 1H21v4h-.08a1.7 1.7 0 0 0-1.52 1Z" />
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-4-4" />
+    </symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24">
+      <path d="M4 5h16M7 12h10M10 19h4" />
+      <circle cx="8" cy="5" r="1" />
+      <circle cx="15" cy="12" r="1" />
+      <circle cx="12" cy="19" r="1" />
+    </symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24">
+      <path d="M20 7V5a2 2 0 0 0-2-2H5a3 3 0 0 0 0 6h15v12H5a3 3 0 0 1-3-3V6" />
+      <path d="M16 13h4" />
+    </symbol>
+    <symbol id="i-send" viewBox="0 0 24 24">
+      <path d="m22 2-7 20-4-9-9-4Z" />
+      <path d="M22 2 11 13" />
+    </symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24">
+      <path
+        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.3 1.73.5 2.63.62A2 2 0 0 1 22 16.92Z" />
+    </symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24">
+      <path d="m9 18 6-6-6-6" />
+    </symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24">
+      <path d="m15 18-6-6 6-6" />
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="m5 12 4 4L19 6" />
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </symbol>
+    <symbol id="i-message" viewBox="0 0 24 24">
+      <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z" />
+      <path d="M8 10h.01M12 10h.01M16 10h.01" />
+    </symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24">
+      <path d="M3 3v18h18" />
+      <path d="m7 16 4-5 3 3 5-7" />
+    </symbol>
+    <symbol id="i-more" viewBox="0 0 24 24">
+      <circle cx="5" cy="12" r="1" />
+      <circle cx="12" cy="12" r="1" />
+      <circle cx="19" cy="12" r="1" />
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="m6 6 12 12M18 6 6 18" />
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14" />
+    </symbol>
+  </svg>
+
+  <div class="page-glow page-glow-one"></div>
+  <div class="page-glow page-glow-two"></div>
+
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Điều hướng chính">
+      <a class="brand" href="#" data-view-target="dashboard" aria-label="Tài Chính KYFAN - Trang chủ">
+        <span class="brand-mark">K</span>
+        <span class="brand-copy">
+          <strong>KYFAN</strong>
+          <small>Quản lý thu nợ</small>
+        </span>
+      </a>
+
+      <nav class="side-nav">
+        <button class="nav-item active" data-view-target="dashboard">
+          <svg>
+            <use href="#i-grid"></use>
+          </svg><span>Tổng quan</span>
+        </button>
+        <button class="nav-item" data-view-target="customers">
+          <svg>
+            <use href="#i-users"></use>
+          </svg><span>Khách hàng</span>
+        </button>
+        <button class="nav-item" data-view-target="calendar">
+          <svg>
+            <use href="#i-calendar"></use>
+          </svg><span>Lịch thu nợ</span>
+        </button>
+        <button class="nav-item" data-view-target="notifications">
+          <svg>
+            <use href="#i-bell"></use>
+          </svg><span>Thông báo</span>
+          <span class="nav-badge" id="sidebar-notification-count">0</span>
+        </button>
+        <button class="nav-item" data-view-target="settings">
+          <svg>
+            <use href="#i-settings"></use>
+          </svg><span>Thiết lập</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-reminder">
+        <div class="sidebar-reminder-icon"><svg>
+            <use href="#i-bell"></use>
+          </svg></div>
+        <strong>Nhắc tự động</strong>
+        <p>Luôn gửi vào ngày 10 hằng tháng.</p>
+        <span id="sidebar-next-date">10/--/----</span>
+      </div>
+
+      <div class="sidebar-user">
+        <span class="avatar avatar-owner">K</span>
+        <div><strong>Tài chính </strong><small>KYFAN</small></div>
+        <svg>
+          <use href="#i-more"></use>
+        </svg>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Quản lý dư nợ</p>
+          <h1 id="desktop-page-title">Tổng quan hôm nay</h1>
+        </div>
+        <div class="topbar-actions">
+          <div class="date-chip">
+            <svg>
+              <use href="#i-calendar"></use>
+            </svg>
+            <span id="today-chip">--</span>
+          </div>
+          <button class="icon-button notification-button" data-view-target="notifications" aria-label="Mở thông báo">
+            <svg>
+              <use href="#i-bell"></use>
+            </svg>
+            <span id="top-notification-count">0</span>
+          </button>
+          <button class="avatar avatar-owner avatar-button" aria-label="Tài khoản cửa hàng">CH</button>
+        </div>
+      </header>
+
+      <header class="mobile-header">
+        <button class="brand-mark brand-mark-small" data-view-target="dashboard">10</button>
+        <div><small id="mobile-date">--</small><strong id="mobile-page-title">Tổng quan</strong></div>
+        <button class="icon-button notification-button" data-view-target="notifications" aria-label="Mở thông báo">
+          <svg>
+            <use href="#i-bell"></use>
+          </svg><span id="mobile-notification-count">0</span>
+        </button>
+      </header>
+
+      <div class="view-stack">
+        <section class="app-view active" id="view-dashboard" data-view="dashboard">
+          <div class="dashboard-hero">
+            <div class="hero-copy">
+              <span class="hero-kicker"><i></i> Lịch nhắc đang hoạt động</span>
+              <h2>Thu nợ đúng hẹn,<br><span>nhẹ việc mỗi tháng.</span></h2>
+              <p>M10 tự động tổng hợp khách đến hạn và gửi nhắc vào ngày 10 hằng tháng.</p>
+              <div class="hero-actions">
+                <button class="primary-button primary-button-light" id="hero-send-reminder">
+                  <svg>
+                    <use href="#i-send"></use>
+                  </svg> Gửi nhắc ngay
+                </button>
+                <button class="text-button text-button-light" data-view-target="settings">Xem thiết lập <svg>
+                    <use href="#i-chevron-right"></use>
+                  </svg></button>
+              </div>
+            </div>
+            <div class="hero-reminder-card">
+              <span>Lần nhắc kế tiếp</span>
+              <strong id="hero-next-day">10</strong>
+              <b id="hero-next-month">Tháng --</b>
+              <small id="hero-countdown">Còn -- ngày</small>
+              <div class="pulse-ring"><svg>
+                  <use href="#i-bell"></use>
+                </svg></div>
+            </div>
+          </div>
+
+          <div class="stats-grid" id="dashboard-stats"></div>
+
+          <div class="dashboard-grid">
+            <article class="card calendar-summary">
+              <div class="card-heading">
+                <div>
+                  <p class="eyebrow">Lịch thu nợ</p>
+                  <h3 id="mini-calendar-title">Tháng --</h3>
+                </div>
+                <button class="text-button" data-view-target="calendar">Xem lịch <svg>
+                    <use href="#i-chevron-right"></use>
+                  </svg></button>
+              </div>
+              <div id="mini-calendar" class="mini-calendar"></div>
+              <div class="calendar-legend">
+                <span><i class="legend-dot reminder"></i> Ngày nhắc nợ</span>
+                <span><i class="legend-dot today"></i> Hôm nay</span>
+              </div>
+            </article>
+
+            <article class="card due-list-card">
+              <div class="card-heading">
+                <div>
+                  <p class="eyebrow">Cần xử lý</p>
+                  <h3>Khách hàng đến hạn</h3>
+                </div>
+                <button class="text-button" data-view-target="customers">Xem tất cả <svg>
+                    <use href="#i-chevron-right"></use>
+                  </svg></button>
+              </div>
+              <div class="compact-customer-list" id="dashboard-customer-list"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="app-view" id="view-customers" data-view="customers">
+          <div class="view-heading">
+            <div>
+              <p class="eyebrow">Danh bạ công nợ</p>
+              <h2>Danh sách khách hàng</h2>
+              <p>Quản lý khoản vay, trạng thái và liên hệ của từng khách hàng.</p>
+            </div>
+            <button class="primary-button" id="add-customer-button"><svg>
+                <use href="#i-plus"></use>
+              </svg> Thêm khách hàng</button>
+          </div>
+
+          <div class="customer-toolbar card">
+            <label class="search-box">
+              <svg>
+                <use href="#i-search"></use>
+              </svg>
+              <input id="customer-search" type="search" placeholder="Tìm tên, số điện thoại, ghi chú..."
+                autocomplete="off">
+            </label>
+            <div class="filter-row" id="customer-filters">
+              <button class="filter-pill active" data-filter="all">Tất cả</button>
+              <button class="filter-pill" data-filter="unreminded">Chưa nhắc</button>
+              <button class="filter-pill" data-filter="reminded">Đã nhắc</button>
+              <button class="filter-pill" data-filter="due">Sắp đến hạn</button>
+              <button class="filter-pill" data-filter="overdue">Quá hạn</button>
+              <button class="filter-pill" data-filter="paid">Đã thanh toán</button>
+              <button class="filter-pill" data-filter="paused">Tạm hoãn</button>
+            </div>
+          </div>
+
+          <div class="customer-results-meta">
+            <strong id="customer-result-count">0 khách hàng</strong>
+            <span>Sắp xếp: Ưu tiên cần xử lý</span>
+          </div>
+          <div class="customer-grid" id="customer-grid"></div>
+        </section>
+
+        <section class="app-view" id="view-calendar" data-view="calendar">
+          <div class="view-heading">
+            <div>
+              <p class="eyebrow">Theo dõi tiến độ</p>
+              <h2>Lịch & trạng thái thu nợ</h2>
+              <p>Ngày 10 được cố định là ngày gửi nhắc nợ chính thức mỗi tháng.</p>
+            </div>
+            <div class="month-controls">
+              <button class="icon-button" id="calendar-prev" aria-label="Tháng trước"><svg>
+                  <use href="#i-chevron-left"></use>
+                </svg></button>
+              <button class="secondary-button" id="calendar-today">Tháng này</button>
+              <button class="icon-button" id="calendar-next" aria-label="Tháng sau"><svg>
+                  <use href="#i-chevron-right"></use>
+                </svg></button>
+            </div>
+          </div>
+
+          <div class="calendar-layout">
+            <article class="card full-calendar-card">
+              <div class="full-calendar-heading">
+                <h3 id="full-calendar-title">Tháng --</h3>
+                <span class="fixed-date-badge"><svg>
+                    <use href="#i-bell"></use>
+                  </svg> Nhắc cố định ngày 10</span>
+              </div>
+              <div class="full-calendar" id="full-calendar"></div>
+            </article>
+            <aside class="calendar-side">
+              <div class="calendar-stat-grid" id="calendar-stats"></div>
+              <article class="card schedule-card">
+                <div class="card-heading">
+                  <div>
+                    <p class="eyebrow">Chu kỳ tháng</p>
+                    <h3>Lịch nhắc sắp tới</h3>
+                  </div>
+                </div>
+                <div id="reminder-schedule" class="reminder-schedule"></div>
+              </article>
+            </aside>
+          </div>
+        </section>
+
+        <section class="app-view" id="view-notifications" data-view="notifications">
+          <div class="view-heading">
+            <div>
+              <p class="eyebrow">Cập nhật hoạt động</p>
+              <h2>Thông báo & báo cáo</h2>
+              <p>Mọi lần nhắc nợ và thanh toán được lưu lại tại đây.</p>
+            </div>
+            <button class="secondary-button" id="mark-all-read"><svg>
+                <use href="#i-check"></use>
+              </svg> Đánh dấu đã đọc</button>
+          </div>
+
+          <div class="notification-report-grid">
+            <article class="card notification-panel">
+              <div class="card-heading">
+                <div>
+                  <p class="eyebrow">Mới nhất</p>
+                  <h3>Thông báo gần đây</h3>
+                </div><span class="soft-badge" id="unread-label">0 chưa đọc</span>
+              </div>
+              <div class="notification-list" id="notification-list"></div>
+            </article>
+
+            <article class="card report-panel">
+              <div class="card-heading">
+                <div>
+                  <p class="eyebrow">Báo cáo tổng quan</p>
+                  <h3>Tỷ lệ thu hồi</h3>
+                </div><span class="soft-badge" id="report-month">Tháng --</span>
+              </div>
+              <div class="recovery-wrap">
+                <div class="recovery-ring" id="recovery-ring"><strong id="recovery-rate">0%</strong><span>đã thu</span>
+                </div>
+                <div class="recovery-details">
+                  <div><span>Tổng phải thu</span><strong id="report-total">0 đ</strong></div>
+                  <div><span>Đã thu</span><strong class="green" id="report-paid">0 đ</strong></div>
+                  <div><span>Còn lại</span><strong class="red" id="report-remaining">0 đ</strong></div>
+                </div>
+              </div>
+              <div class="chart-heading"><strong>Doanh thu 6 tháng gần nhất</strong><span>Triệu đồng</span></div>
+              <div class="bar-chart" id="revenue-chart"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="app-view" id="view-settings" data-view="settings">
+          <div class="view-heading">
+            <div>
+              <p class="eyebrow">Tự động hóa</p>
+              <h2>Thiết lập nhắc tự động</h2>
+              <p>Chu kỳ được khóa vào ngày 10 hằng tháng theo yêu cầu.</p>
+            </div>
+            <button class="primary-button" id="save-settings"><svg>
+                <use href="#i-check"></use>
+              </svg> Lưu thiết lập</button>
+          </div>
+
+          <div class="settings-layout">
+            <article class="card settings-card">
+              <div class="settings-section">
+                <div class="setting-heading">
+                  <div class="setting-icon blue"><svg>
+                      <use href="#i-calendar"></use>
+                    </svg></div>
+                  <div>
+                    <h3>Lịch nhắc</h3>
+                    <p>Thiết lập thời điểm hệ thống tạo nhắc nợ.</p>
+                  </div>
+                </div>
+                <div class="setting-row">
+                  <div><strong>Ngày nhắc chính</strong><small>Áp dụng cố định mỗi tháng</small></div>
+                  <div class="locked-day"><span>Ngày</span><strong>10</strong><svg>
+                      <use href="#i-check"></use>
+                    </svg></div>
+                </div>
+                <label class="setting-row">
+                  <div><strong>Nhắc trước 3 ngày</strong><small>Gửi thông báo chuẩn bị vào ngày 7</small></div>
+                  <input class="switch-input" id="setting-early" type="checkbox" checked><span class="switch"></span>
+                </label>
+                <label class="setting-row">
+                  <div><strong>Nhắc lại nếu chưa thanh toán</strong><small>Lặp lại mỗi 3 ngày sau ngày đến hạn</small>
+                  </div>
+                  <input class="switch-input" id="setting-repeat" type="checkbox" checked><span class="switch"></span>
+                </label>
+              </div>
+
+              <div class="settings-section">
+                <div class="setting-heading">
+                  <div class="setting-icon green"><svg>
+                      <use href="#i-send"></use>
+                    </svg></div>
+                  <div>
+                    <h3>Kênh nhắc</h3>
+                    <p>Chọn cách liên hệ khi đến lịch.</p>
+                  </div>
+                </div>
+                <label class="setting-row">
+                  <div class="channel-name"><span class="channel-icon sms"><svg>
+                        <use href="#i-message"></use>
+                      </svg></span>
+                    <div><strong>Thông báo trình duyệt</strong><small>Hiển thị ngay trên thiết bị đang dùng</small>
+                    </div>
+                  </div>
+                  <input class="switch-input" id="setting-browser" type="checkbox" checked><span class="switch"></span>
+                </label>
+                <label class="setting-row">
+                  <div class="channel-name"><span class="channel-icon zalo">Z</span>
+                    <div><strong>Zalo</strong><small>Mô phỏng trạng thái gửi trong giao diện</small></div>
+                  </div>
+                  <input class="switch-input" id="setting-zalo" type="checkbox" checked><span class="switch"></span>
+                </label>
+                <label class="setting-row">
+                  <div class="channel-name"><span class="channel-icon phone"><svg>
+                        <use href="#i-phone"></use>
+                      </svg></span>
+                    <div><strong>Nhắc gọi điện</strong><small>Trong giờ hành chính 08:00–18:00</small></div>
+                  </div>
+                  <input class="switch-input" id="setting-call" type="checkbox" checked><span class="switch"></span>
+                </label>
+              </div>
+            </article>
+
+            <aside class="settings-preview">
+              <article class="card message-preview">
+                <div class="preview-header"><span class="channel-icon sms"><svg>
+                      <use href="#i-message"></use>
+                    </svg></span>
+                  <div><strong>Xem trước tin nhắn</strong><small>Gửi ngày 10 hằng tháng</small></div>
+                </div>
+                <div class="message-bubble">
+                  <p>Xin chào <strong>Nguyễn Văn An</strong>,</p>
+                  <p>Khoản vay của bạn đã đến hạn ngày <strong id="preview-due-date">10/--/----</strong>. Số tiền cần
+                    thanh toán: <strong>26.000.000 đ</strong>.</p>
+                  <p>Vui lòng thanh toán đúng hạn. Cảm ơn bạn!</p>
+                  <span>Cửa hàng Minh Anh</span>
+                </div>
+                <p class="preview-note">Tên, ngày đến hạn và số tiền sẽ được thay thế tự động cho từng khách hàng.</p>
+              </article>
+              <article class="browser-notification-card">
+                <div class="browser-notification-icon"><svg>
+                    <use href="#i-bell"></use>
+                  </svg></div>
+                <div><strong>Bật thông báo trên thiết bị</strong>
+                  <p>Cho phép trình duyệt hiện nhắc nợ vào ngày 10 khi trang đang mở.</p>
+                </div>
+                <button class="secondary-button" id="enable-browser-notifications">Cho phép</button>
+              </article>
+            </aside>
+          </div>
+        </section>
+      </div>
+
+      <nav class="bottom-nav" aria-label="Điều hướng di động">
+        <button class="active" data-view-target="dashboard"><svg>
+            <use href="#i-grid"></use>
+          </svg><span>Tổng quan</span></button>
+        <button data-view-target="customers"><svg>
+            <use href="#i-users"></use>
+          </svg><span>Khách hàng</span></button>
+        <button data-view-target="calendar"><svg>
+            <use href="#i-calendar"></use>
+          </svg><span>Lịch</span></button>
+        <button data-view-target="notifications"><svg>
+            <use href="#i-bell"></use>
+          </svg><span>Thông báo</span><i id="bottom-notification-dot"></i></button>
+        <button data-view-target="settings"><svg>
+            <use href="#i-settings"></use>
+          </svg><span>Thiết lập</span></button>
+      </nav>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="customer-modal" hidden>
+    <div class="customer-detail-modal" role="dialog" aria-modal="true" aria-labelledby="detail-customer-name">
+      <button class="modal-close icon-button" id="close-customer-modal" aria-label="Đóng"><svg>
+          <use href="#i-x"></use>
+        </svg></button>
+      <div id="customer-detail-content"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="add-customer-modal" hidden>
+    <form class="form-modal" id="customer-form" role="dialog" aria-modal="true">
+      <div class="form-modal-heading">
+        <div>
+          <p class="eyebrow">Hồ sơ mới</p>
+          <h2>Thêm khách hàng</h2>
+        </div><button type="button" class="icon-button" id="close-add-modal"><svg>
+            <use href="#i-x"></use>
+          </svg></button>
+      </div>
+      <div class="form-grid">
+        <label><span>Họ và tên</span><input name="name" required placeholder="Ví dụ: Nguyễn Văn A"></label>
+        <label><span>Số điện thoại</span><input name="phone" required inputmode="tel"
+            placeholder="0901 234 567"></label>
+        <label><span>Số tiền vay</span><input name="principal" required type="number" min="0" step="100000"
+            placeholder="25000000"></label>
+        <label><span>Lãi hằng tháng</span><input name="interest" required type="number" min="0" step="100000"
+            placeholder="1000000"></label>
+        <label class="form-full"><span>Ghi chú</span><textarea name="note" rows="3"
+            placeholder="Mục đích vay hoặc ghi chú liên hệ"></textarea></label>
+      </div>
+      <div class="form-note"><svg>
+          <use href="#i-calendar"></use>
+        </svg><span>Ngày đến hạn tự động đặt vào <strong>ngày 10 hằng tháng</strong>.</span></div>
+      <div class="form-actions"><button type="button" class="secondary-button"
+          id="cancel-add-customer">Hủy</button><button type="submit" class="primary-button">Thêm khách hàng</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+
+</html>
