@@ -103,6 +103,25 @@
     </symbol>
   </svg>
 
+  <!-- Banner hướng dẫn cài đặt iOS PWA -->
+  <div class="ios-install-banner" id="ios-install-banner" hidden>
+    <div class="ios-install-content">
+      <div class="ios-install-icon">
+        <img src="assets/icons/apple-touch-icon.png" alt="M10" width="44" height="44">
+      </div>
+      <div class="ios-install-text">
+        <strong>Cài app để nhận thông báo</strong>
+        <span>Bấm <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+            <polyline points="16 6 12 2 8 6" />
+            <line x1="12" y1="2" x2="12" y2="15" />
+          </svg> → <em>Thêm vào màn hình chính</em></span>
+      </div>
+      <button class="ios-install-close" id="ios-install-close" aria-label="Đóng">✕</button>
+    </div>
+    <div class="ios-install-arrow">▼</div>
+  </div>
+
   <div class="page-glow page-glow-one"></div>
   <div class="page-glow page-glow-two"></div>
 
@@ -400,14 +419,78 @@
 
           <div class="settings-layout">
             <article class="card settings-card">
+
+              <!-- ── Phần Lịch nhắc push notification mới ── -->
+              <div class="settings-section">
+                <div class="setting-heading">
+                  <div class="setting-icon blue"><svg>
+                      <use href="#i-bell"></use>
+                    </svg></div>
+                  <div>
+                    <h3>Thông báo đẩy ra màn hình điện thoại</h3>
+                    <p>Chọn ngày muốn nhận thông báo "Mở APP Ngay" hàng tháng.</p>
+                  </div>
+                </div>
+
+                <!-- Xin quyền notification -->
+                <div class="setting-row" id="notif-permission-row">
+                  <div>
+                    <strong>Quyền thông báo</strong>
+                    <small id="notif-permission-status">Chưa cấp quyền</small>
+                  </div>
+                  <button class="secondary-button" id="btn-request-permission">Cấp quyền</button>
+                </div>
+
+                <!-- Chọn ngày -->
+                <div class="setting-row setting-row--block">
+                  <div><strong>Chọn ngày gửi thông báo</strong><small>Có thể chọn nhiều ngày trong tháng</small></div>
+                  <div class="day-picker" id="day-picker">
+                    <!-- Render bằng JS -->
+                  </div>
+                </div>
+
+                <!-- Chọn giờ -->
+                <div class="setting-row">
+                  <div><strong>Giờ gửi thông báo</strong><small>Thông báo sẽ xuất hiện lúc này</small></div>
+                  <div class="time-picker-wrap">
+                    <select id="notif-hour" class="time-select">
+                      <!-- Render bằng JS -->
+                    </select>
+                    <span class="time-colon">:</span>
+                    <select id="notif-minute" class="time-select">
+                      <option value="0">00</option>
+                      <option value="30">30</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Trạng thái lịch đang chạy -->
+                <div class="schedule-status-box" id="schedule-status-box" hidden>
+                  <svg>
+                    <use href="#i-check"></use>
+                  </svg>
+                  <div>
+                    <strong>Đã lên lịch thành công</strong>
+                    <span id="schedule-status-text"></span>
+                  </div>
+                  <button class="link-button" id="btn-cancel-schedule">Hủy lịch</button>
+                </div>
+
+                <!-- Nút test thông báo -->
+                <div class="setting-row" style="margin-top:4px">
+                  <div><strong>Thử gửi thông báo ngay</strong><small>Kiểm tra thông báo có hoạt động không</small></div>
+                  <button class="secondary-button" id="btn-test-notification">Thử ngay</button>
+                </div>
+              </div>
+
               <div class="settings-section">
                 <div class="setting-heading">
                   <div class="setting-icon blue"><svg>
                       <use href="#i-calendar"></use>
                     </svg></div>
                   <div>
-                    <h3>Lịch nhắc</h3>
-                    <p>Thiết lập thời điểm hệ thống tạo nhắc nợ.</p>
+                    <h3>Lịch nhắc trong ứng dụng</h3>
+                    <p>Thiết lập thời điểm hệ thống tạo nhắc nợ trong app.</p>
                   </div>
                 </div>
                 <div class="setting-row">
@@ -433,7 +516,7 @@
                       <use href="#i-send"></use>
                     </svg></div>
                   <div>
-                    <h3>Kênh nhắc</h3>
+                    <h3>Kênh nhắc trong ứng dụng</h3>
                     <p>Chọn cách liên hệ khi đến lịch.</p>
                   </div>
                 </div>
@@ -479,6 +562,37 @@
                 </div>
                 <p class="preview-note">Tên, ngày đến hạn và số tiền sẽ được thay thế tự động cho từng khách hàng.</p>
               </article>
+
+              <!-- Card hướng dẫn iOS -->
+              <article class="ios-guide-card" id="ios-guide-card">
+                <div class="ios-guide-header">
+                  <div class="ios-guide-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22"
+                      height="22">
+                      <path d="M12 18.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13Z" />
+                      <path
+                        d="M12 22v-3.5M12 5.5V2M4.22 19.78l2.47-2.47M17.31 6.69l2.47-2.47M2 12h3.5M18.5 12H22M4.22 4.22l2.47 2.47M17.31 17.31l2.47 2.47" />
+                    </svg>
+                  </div>
+                  <div>
+                    <strong>Cài app trên iOS để nhận thông báo</strong>
+                    <small>Yêu cầu iOS 16.4+ và thêm vào màn hình chính</small>
+                  </div>
+                </div>
+                <ol class="ios-guide-steps">
+                  <li><span class="step-num">1</span><span>Mở trang này bằng <strong>Safari</strong></span></li>
+                  <li><span class="step-num">2</span><span>Bấm nút <strong>Chia sẻ</strong> <svg width="13" height="13"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+                        <polyline points="16 6 12 2 8 6" />
+                        <line x1="12" y1="2" x2="12" y2="15" />
+                      </svg> dưới cùng màn hình</span></li>
+                  <li><span class="step-num">3</span><span>Chọn <strong>"Thêm vào màn hình chính"</strong></span></li>
+                  <li><span class="step-num">4</span><span>Mở app từ màn hình chính, vào Thiết lập → Cấp quyền thông
+                      báo</span></li>
+                </ol>
+              </article>
+
               <article class="browser-notification-card">
                 <div class="browser-notification-icon"><svg>
                     <use href="#i-bell"></use>
