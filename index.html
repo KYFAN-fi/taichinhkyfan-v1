@@ -219,9 +219,11 @@
         <section class="app-view active" id="view-dashboard" data-view="dashboard">
           <div class="dashboard-hero">
             <div class="hero-copy">
-              <span class="hero-kicker"><i></i> Lịch nhắc đang hoạt động</span>
+              <span class="hero-kicker"><i></i> Lịch nhắc đang hoạt
+                động</span>
               <h2>Thu phí đúng hẹn,<br><span>nhẹ việc mỗi tháng.</span></h2>
-              <p>M10 tự động tổng hợp khách đến hạn và gửi nhắc vào ngày 10 hằng tháng.</p>
+              <p>M10 tự động tổng hợp khách đến hạn và gửi nhắc vào ngày 10
+                hằng tháng.</p>
               <div class="hero-actions">
                 <button class="primary-button primary-button-light" id="hero-send-reminder">
                   <svg>
@@ -253,7 +255,8 @@
                   <p class="eyebrow">Lịch thu phí</p>
                   <h3 id="mini-calendar-title">Tháng --</h3>
                 </div>
-                <button class="text-button" data-view-target="calendar">Xem lịch <svg>
+                <button class="text-button" data-view-target="calendar">Xem
+                  lịch <svg>
                     <use href="#i-chevron-right"></use>
                   </svg></button>
               </div>
@@ -270,7 +273,8 @@
                   <p class="eyebrow">Cần xử lý</p>
                   <h3>Khách hàng đến hạn</h3>
                 </div>
-                <button class="text-button" data-view-target="customers">Xem tất cả <svg>
+                <button class="text-button" data-view-target="customers">Xem
+                  tất cả <svg>
                     <use href="#i-chevron-right"></use>
                   </svg></button>
               </div>
@@ -284,7 +288,8 @@
             <div>
               <p class="eyebrow">Danh bạ công phí</p>
               <h2>Danh sách khách hàng</h2>
-              <p>Quản lý khoản vay, trạng thái và liên hệ của từng khách hàng.</p>
+              <p>Quản lý khoản vay, trạng thái và liên hệ của từng khách
+                hàng.</p>
             </div>
             <button class="primary-button" id="add-customer-button"><svg>
                 <use href="#i-plus"></use>
@@ -300,13 +305,20 @@
                 autocomplete="off">
             </label>
             <div class="filter-row" id="customer-filters">
-              <button class="filter-pill active" data-filter="all">Tất cả</button>
-              <button class="filter-pill" data-filter="unreminded">Chưa nhắc</button>
-              <button class="filter-pill" data-filter="reminded">Đã nhắc</button>
-              <button class="filter-pill" data-filter="due">Sắp đến hạn</button>
-              <button class="filter-pill" data-filter="overdue">Quá hạn</button>
-              <button class="filter-pill" data-filter="paid">Đã thanh toán</button>
-              <button class="filter-pill" data-filter="paused">Tạm hoãn</button>
+              <button class="filter-pill active" data-filter="all">Tất
+                cả</button>
+              <button class="filter-pill" data-filter="unreminded">Chưa
+                nhắc</button>
+              <button class="filter-pill" data-filter="reminded">Đã
+                nhắc</button>
+              <button class="filter-pill" data-filter="due">Sắp đến
+                hạn</button>
+              <button class="filter-pill" data-filter="overdue">Quá
+                hạn</button>
+              <button class="filter-pill" data-filter="paid">Đã thanh
+                toán</button>
+              <button class="filter-pill" data-filter="paused">Tạm
+                hoãn</button>
             </div>
           </div>
 
@@ -322,13 +334,15 @@
             <div>
               <p class="eyebrow">Theo dõi tiến độ</p>
               <h2>Lịch & trạng thái thu phí</h2>
-              <p>Ngày 10 được cố định là ngày gửi nhắc phí chính thức mỗi tháng.</p>
+              <p>Ngày 10 được cố định là ngày gửi nhắc phí chính thức mỗi
+                tháng.</p>
             </div>
             <div class="month-controls">
               <button class="icon-button" id="calendar-prev" aria-label="Tháng trước"><svg>
                   <use href="#i-chevron-left"></use>
                 </svg></button>
-              <button class="secondary-button" id="calendar-today">Tháng này</button>
+              <button class="secondary-button" id="calendar-today">Tháng
+                này</button>
               <button class="icon-button" id="calendar-next" aria-label="Tháng sau"><svg>
                   <use href="#i-chevron-right"></use>
                 </svg></button>
@@ -378,7 +392,8 @@
                 <div>
                   <p class="eyebrow">Mới nhất</p>
                   <h3>Thông báo gần đây</h3>
-                </div><span class="soft-badge" id="unread-label">0 chưa đọc</span>
+                </div><span class="soft-badge" id="unread-label">0 chưa
+                  đọc</span>
               </div>
               <div class="notification-list" id="notification-list"></div>
             </article>
@@ -388,18 +403,21 @@
                 <div>
                   <p class="eyebrow">Báo cáo tổng quan</p>
                   <h3>Tỷ lệ thu hồi</h3>
-                </div><span class="soft-badge" id="report-month">Tháng --</span>
+                </div><span class="soft-badge" id="report-month">Tháng
+                  --</span>
               </div>
               <div class="recovery-wrap">
                 <div class="recovery-ring" id="recovery-ring"><strong id="recovery-rate">0%</strong><span>đã thu</span>
                 </div>
                 <div class="recovery-details">
-                  <div><span>Tổng phải thu</span><strong id="report-total">0 đ</strong></div>
+                  <div><span>Tổng phải thu</span><strong id="report-total">0
+                      đ</strong></div>
                   <div><span>Đã thu</span><strong class="green" id="report-paid">0 đ</strong></div>
                   <div><span>Còn lại</span><strong class="red" id="report-remaining">0 đ</strong></div>
                 </div>
               </div>
-              <div class="chart-heading"><strong>Doanh thu 6 tháng gần nhất</strong><span>Triệu đồng</span></div>
+              <div class="chart-heading"><strong>Doanh thu 6 tháng gần
+                  nhất</strong><span>Triệu đồng</span></div>
               <div class="bar-chart" id="revenue-chart"></div>
             </article>
           </div>
@@ -428,7 +446,8 @@
                     </svg></div>
                   <div>
                     <h3>Thông báo đẩy ra màn hình điện thoại</h3>
-                    <p>Chọn ngày muốn nhận thông báo "Mở APP Ngay" hàng tháng.</p>
+                    <p>Chọn ngày muốn nhận thông báo "Mở APP Ngay" hàng
+                      tháng.</p>
                   </div>
                 </div>
 
@@ -443,7 +462,8 @@
 
                 <!-- Chọn ngày -->
                 <div class="setting-row setting-row--block">
-                  <div><strong>Chọn ngày gửi thông báo</strong><small>Có thể chọn nhiều ngày trong tháng</small></div>
+                  <div><strong>Chọn ngày gửi thông báo</strong><small>Có thể
+                      chọn nhiều ngày trong tháng</small></div>
                   <div class="day-picker" id="day-picker">
                     <!-- Render bằng JS -->
                   </div>
@@ -451,16 +471,20 @@
 
                 <!-- Chọn giờ -->
                 <div class="setting-row">
-                  <div><strong>Giờ gửi thông báo</strong><small>Thông báo sẽ xuất hiện lúc này</small></div>
+                  <div><strong>Giờ gửi thông báo</strong><small>Thông báo sẽ
+                      xuất hiện lúc này</small></div>
                   <div class="time-picker-wrap">
                     <select id="notif-hour" class="time-select">
                       <!-- Render bằng JS -->
                     </select>
                     <span class="time-colon">:</span>
-                    <select id="notif-minute" class="time-select">
-                      <option value="0">00</option>
-                      <option value="30">30</option>
-                    </select>
+                    <input id="notif-minute" class="time-select" type="text" inputmode="numeric" maxlength="2"
+                      placeholder="00" value="00" list="minute-options" />
+
+                    <datalist id="minute-options">
+                      <option value="00"></option>
+                      <option value="30"></option>
+                    </datalist>
                   </div>
                 </div>
 
@@ -473,12 +497,14 @@
                     <strong>Đã lên lịch thành công</strong>
                     <span id="schedule-status-text"></span>
                   </div>
-                  <button class="link-button" id="btn-cancel-schedule">Hủy lịch</button>
+                  <button class="link-button" id="btn-cancel-schedule">Hủy
+                    lịch</button>
                 </div>
 
                 <!-- Nút test thông báo -->
                 <div class="setting-row" style="margin-top:4px">
-                  <div><strong>Thử gửi thông báo ngay</strong><small>Kiểm tra thông báo có hoạt động không</small></div>
+                  <div><strong>Thử gửi thông báo ngay</strong><small>Kiểm tra
+                      thông báo có hoạt động không</small></div>
                   <button class="secondary-button" id="btn-test-notification">Thử ngay</button>
                 </div>
               </div>
@@ -490,21 +516,25 @@
                     </svg></div>
                   <div>
                     <h3>Lịch nhắc trong ứng dụng</h3>
-                    <p>Thiết lập thời điểm hệ thống tạo nhắc phí trong app.</p>
+                    <p>Thiết lập thời điểm hệ thống tạo nhắc phí trong
+                      app.</p>
                   </div>
                 </div>
                 <div class="setting-row">
-                  <div><strong>Ngày nhắc chính</strong><small>Áp dụng cố định mỗi tháng</small></div>
+                  <div><strong>Ngày nhắc chính</strong><small>Áp dụng cố định
+                      mỗi tháng</small></div>
                   <div class="locked-day"><span>Ngày</span><strong>10</strong><svg>
                       <use href="#i-check"></use>
                     </svg></div>
                 </div>
                 <label class="setting-row">
-                  <div><strong>Nhắc trước 3 ngày</strong><small>Gửi thông báo chuẩn bị vào ngày 7</small></div>
+                  <div><strong>Nhắc trước 3 ngày</strong><small>Gửi thông báo
+                      chuẩn bị vào ngày 7</small></div>
                   <input class="switch-input" id="setting-early" type="checkbox" checked><span class="switch"></span>
                 </label>
                 <label class="setting-row">
-                  <div><strong>Nhắc lại nếu chưa thanh toán</strong><small>Lặp lại mỗi 3 ngày sau ngày đến hạn</small>
+                  <div><strong>Nhắc lại nếu chưa thanh toán</strong><small>Lặp
+                      lại mỗi 3 ngày sau ngày đến hạn</small>
                   </div>
                   <input class="switch-input" id="setting-repeat" type="checkbox" checked><span class="switch"></span>
                 </label>
@@ -524,14 +554,16 @@
                   <div class="channel-name"><span class="channel-icon sms"><svg>
                         <use href="#i-message"></use>
                       </svg></span>
-                    <div><strong>Thông báo trình duyệt</strong><small>Hiển thị ngay trên thiết bị đang dùng</small>
+                    <div><strong>Thông báo trình duyệt</strong><small>Hiển thị
+                        ngay trên thiết bị đang dùng</small>
                     </div>
                   </div>
                   <input class="switch-input" id="setting-browser" type="checkbox" checked><span class="switch"></span>
                 </label>
                 <label class="setting-row">
                   <div class="channel-name"><span class="channel-icon zalo">Z</span>
-                    <div><strong>Zalo</strong><small>Mô phỏng trạng thái gửi trong giao diện</small></div>
+                    <div><strong>Zalo</strong><small>Mô phỏng trạng thái gửi
+                        trong giao diện</small></div>
                   </div>
                   <input class="switch-input" id="setting-zalo" type="checkbox" checked><span class="switch"></span>
                 </label>
@@ -539,7 +571,8 @@
                   <div class="channel-name"><span class="channel-icon phone"><svg>
                         <use href="#i-phone"></use>
                       </svg></span>
-                    <div><strong>Nhắc gọi điện</strong><small>Trong giờ hành chính 08:00–18:00</small></div>
+                    <div><strong>Nhắc gọi điện</strong><small>Trong giờ hành
+                        chính 08:00–18:00</small></div>
                   </div>
                   <input class="switch-input" id="setting-call" type="checkbox" checked><span class="switch"></span>
                 </label>
@@ -551,7 +584,8 @@
                 <div class="preview-header"><span class="channel-icon sms"><svg>
                       <use href="#i-message"></use>
                     </svg></span>
-                  <div><strong>Xem trước tin nhắn</strong><small>Gửi ngày 10 hằng tháng</small></div>
+                  <div><strong>Xem trước tin nhắn</strong><small>Gửi ngày 10
+                      hằng tháng</small></div>
                 </div>
                 <div class="message-bubble">
                   <p>Xin chào <strong>Nguyễn Văn An</strong>,</p>
@@ -560,7 +594,8 @@
                   <p>Vui lòng thanh toán đúng hạn. Cảm ơn bạn!</p>
                   <span>Cửa hàng Minh Anh</span>
                 </div>
-                <p class="preview-note">Tên, ngày đến hạn và số tiền sẽ được thay thế tự động cho từng khách hàng.</p>
+                <p class="preview-note">Tên, ngày đến hạn và số tiền sẽ được
+                  thay thế tự động cho từng khách hàng.</p>
               </article>
 
               <!-- Card hướng dẫn iOS -->
@@ -576,19 +611,24 @@
                   </div>
                   <div>
                     <strong>Cài app trên iOS để nhận thông báo</strong>
-                    <small>Yêu cầu iOS 16.4+ và thêm vào màn hình chính</small>
+                    <small>Yêu cầu iOS 16.4+ và thêm vào màn hình
+                      chính</small>
                   </div>
                 </div>
                 <ol class="ios-guide-steps">
-                  <li><span class="step-num">1</span><span>Mở trang này bằng <strong>Safari</strong></span></li>
-                  <li><span class="step-num">2</span><span>Bấm nút <strong>Chia sẻ</strong> <svg width="13" height="13"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <li><span class="step-num">1</span><span>Mở trang này bằng
+                      <strong>Safari</strong></span></li>
+                  <li><span class="step-num">2</span><span>Bấm nút
+                      <strong>Chia sẻ</strong> <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
                         <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
                         <polyline points="16 6 12 2 8 6" />
                         <line x1="12" y1="2" x2="12" y2="15" />
                       </svg> dưới cùng màn hình</span></li>
-                  <li><span class="step-num">3</span><span>Chọn <strong>"Thêm vào màn hình chính"</strong></span></li>
-                  <li><span class="step-num">4</span><span>Mở app từ màn hình chính, vào Thiết lập → Cấp quyền thông
+                  <li><span class="step-num">3</span><span>Chọn
+                      <strong>"Thêm vào màn hình chính"</strong></span></li>
+                  <li><span class="step-num">4</span><span>Mở app từ màn hình
+                      chính, vào Thiết lập → Cấp quyền thông
                       báo</span></li>
                 </ol>
               </article>
@@ -598,7 +638,8 @@
                     <use href="#i-bell"></use>
                   </svg></div>
                 <div><strong>Bật thông báo trên thiết bị</strong>
-                  <p>Cho phép trình duyệt hiện nhắc phí vào ngày 10 khi trang đang mở.</p>
+                  <p>Cho phép trình duyệt hiện nhắc phí vào ngày 10 khi trang
+                    đang mở.</p>
                 </div>
                 <button class="secondary-button" id="enable-browser-notifications">Cho phép</button>
               </article>
@@ -659,7 +700,8 @@
       </div>
       <div class="form-note"><svg>
           <use href="#i-calendar"></use>
-        </svg><span>Ngày đến hạn tự động đặt vào <strong>ngày 10 hằng tháng</strong>.</span></div>
+        </svg><span>Ngày đến hạn tự động đặt vào <strong>ngày 10 hằng
+            tháng</strong>.</span></div>
       <div class="form-actions"><button type="button" class="secondary-button"
           id="cancel-add-customer">Hủy</button><button type="submit" class="primary-button">Thêm khách hàng</button>
       </div>
