@@ -1914,3 +1914,161 @@ if ("serviceWorker" in navigator) {
     }
   });
 }
+
+const notifHour = document.getElementById("notif-hour");
+const notifMinute = document.getElementById("notif-minute");
+
+let reminderTimers = [];
+
+// Render giờ 00 -> 23
+for (let h = 0; h < 24; h++) {
+  const option = document.createElement("option");
+  option.value = String(h).padStart(2, "0");
+  option.textContent = String(h).padStart(2, "0");
+  notifHour.appendChild(option);
+}
+
+// Chỉ cho nhập số phút từ 00 - 59
+notifMinute.addEventListener("input", function () {
+  this.value = this.value.replace(/\D/g, "").slice(0, 2);
+});
+
+notifMinute.addEventListener("blur", function () {
+  let minute = Number(this.value);
+
+  if (this.value === "" || isNaN(minute)) {
+    this.value = "00";
+    return;
+  }
+
+  if (minute < 0) minute = 0;
+  if (minute > 59) minute = 59;
+
+  this.value = String(minute).padStart(2, "0");
+});
+
+function clearOldReminderTimers() {
+  reminderTimers.forEach((timer) => clearTimeout(timer));
+  reminderTimers = [];
+}
+
+function getNextNotificationTime() {
+  const hour = Number(notifHour.value);
+  const minute = Number(notifMinute.value);
+
+  if (isNaN(hour) || isNaN(minute)) {
+    alert("Vui lòng nhập giờ và phút hợp lệ");
+    return null;
+  }
+
+  const now = new Date();
+  const targetTime = new Date();
+
+  targetTime.setHours(hour, minute, 0, 0);
+
+  // Nếu giờ đã qua trong hôm nay thì chuyển sang ngày mai
+  if (targetTime <= now) {
+    targetTime.setDate(targetTime.getDate() + 1);
+  }
+
+  return targetTime;
+}
+
+function showDebtReminderNotification(index) {
+  const title = index === 0 ? "Đến giờ nhắc công nợ" : `Nhắc lại lần ${index}`;
+
+  const body =
+    index === 0
+      ? "Đã đến thời gian nhắc khách hàng còn công nợ thanh toán."
+      : "Khách hàng vẫn cần được nhắc thanh toán công nợ.";
+
+  if ("Notification" in window && Notification.permission === "granted") {
+    new Notification(title, {
+      body,
+      icon: "/icon-192.png",
+    });
+  } else {
+    alert(`${title}\n${body}`);
+  }
+}
+
+async function setDebtReminder() {
+  clearOldReminderTimers();
+
+  if (!("Notification" in window)) {
+    alert("Trình duyệt này không hỗ trợ thông báo.");
+    return;
+  }
+
+  if (Notification.permission !== "granted") {
+    const permission = await Notification.requestPermission();
+
+    if (permission !== "granted") {
+      alert("Bạn cần cho phép thông báo để sử dụng tính năng nhắc công nợ.");
+      return;
+    }
+  }
+
+  const startTime = getNextNotificationTime();
+  if (!startTime) return;
+
+  const repeatEvery = 5 * 60 * 1000; // 5 phút
+  const totalDuration = 30 * 60 * 1000; // 30 phút
+
+  /*
+      Lịch nhắc:
+      - Lần 1: đúng giờ đã set
+      - Lần 2: sau 5 phút
+      - Lần 3: sau 10 phút
+      - ...
+      - Lần cuối: sau 30 phút
+    */
+
+  for (let offset = 0; offset <= totalDuration; offset += repeatEvery) {
+    const notificationTime = startTime.getTime() + offset;
+    const delay = notificationTime - Date.now();
+
+    if (delay >= 0) {
+      const index = offset / repeatEvery;
+
+      const timer = setTimeout(() => {
+        showDebtReminderNotification(index);
+      }, delay);
+
+      reminderTimers.push(timer);
+    }
+  }
+
+  localStorage.setItem(
+    "debtReminder",
+    JSON.stringify({
+      hour: notifHour.value,
+      minute: notifMinute.value,
+      startAt: startTime.getTime(),
+      repeatEveryMinutes: 5,
+      durationMinutes: 30,
+    }),
+  );
+
+  alert(
+    `Đã set thông báo lúc ${notifHour.value}:${notifMinute.value}. ` +
+      `Hệ thống sẽ nhắc lại mỗi 5 phút trong 30 phút.`,
+  );
+}
+const saveSettingsBtn = document.getElementById("save-settings");
+
+if (saveSettingsBtn) {
+  saveSettingsBtn.addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    saveSettingsBtn.disabled = true;
+    saveSettingsBtn.classList.add("is-loading");
+
+    try {
+      await setDebtReminder();
+    } finally {
+      saveSettingsBtn.disabled = false;
+      saveSettingsBtn.classList.remove("is-loading");
+    }
+  });
+}

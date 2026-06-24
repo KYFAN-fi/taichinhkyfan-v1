@@ -430,9 +430,12 @@
               <h2>Thiết lập nhắc tự động</h2>
               <p>Chu kỳ được khóa vào ngày 10 hằng tháng theo yêu cầu.</p>
             </div>
-            <button class="primary-button" id="save-settings"><svg>
+            <button type="button" class="primary-button" id="save-settings">
+              <svg>
                 <use href="#i-check"></use>
-              </svg> Lưu thiết lập</button>
+              </svg>
+              Lưu thiết lập
+            </button>
           </div>
 
           <div class="settings-layout">
@@ -474,17 +477,25 @@
                   <div><strong>Giờ gửi thông báo</strong><small>Thông báo sẽ
                       xuất hiện lúc này</small></div>
                   <div class="time-picker-wrap">
-                    <select id="notif-hour" class="time-select">
+                    <select id="notif-hour" class="time-select" aria-label="Chọn giờ">
                       <!-- Render bằng JS -->
                     </select>
-                    <span class="time-colon">:</span>
-                    <input id="notif-minute" class="time-select" type="text" inputmode="numeric" maxlength="2"
-                      placeholder="00" value="00" list="minute-options" />
 
-                    <datalist id="minute-options">
-                      <option value="00"></option>
-                      <option value="30"></option>
-                    </datalist>
+                    <span class="time-colon">:</span>
+
+                    <input id="notif-minute" class="time-select minute-input" type="text" inputmode="numeric"
+                      pattern="[0-9]*" maxlength="2" placeholder="00" value="00" autocomplete="off"
+                      aria-label="Nhập phút" />
+                  </div>
+
+                  <div class="minute-helper-wrap">
+                    <button type="button" class="minute-chip" data-minute="00">00</button>
+                    <button type="button" class="minute-chip" data-minute="15">15</button>
+                    <button type="button" class="minute-chip" data-minute="30">30</button>
+                    <button type="button" class="minute-chip" data-minute="45">45</button>
+
+                    <button type="button" id="minute-minus" class="minute-step-btn">-5 phút</button>
+                    <button type="button" id="minute-plus" class="minute-step-btn">+5 phút</button>
                   </div>
                 </div>
 
