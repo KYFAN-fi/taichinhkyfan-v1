@@ -14,106 +14,465 @@ const STATUS = {
   paused: { label: "Tạm hoãn", className: "status-paused" },
 };
 
+// ═══════════════════════════════════════════════════════════════
+// DỮ LIỆU THỰC TẾ — Danh sách khách nợ
+// Lãi suất: %/tháng, tính trên dư nợ gốc còn lại
+// Thu lãi cố định ngày 10 hằng tháng
+// ═══════════════════════════════════════════════════════════════
 const DEFAULT_CUSTOMERS = [
   {
     id: 1,
-    name: "Nguyễn Văn An",
-    phone: "0901 234 567",
-    principal: 25000000,
-    interest: 1000000,
-    paid: 0,
-    status: "overdue",
-    note: "Vay lấy vốn kinh doanh",
-    color: "#49b15b",
+    name: "Dương - Tam Dương",
+    phone: "",
+    color: "#5b8def",
+    address: "Vĩnh Phúc",
+    rate: 0.8,
+    status: "unreminded",
+    disbursements: [{ date: "07/11/2025", amount: 200000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 07/11/2025: 200tr",
   },
   {
     id: 2,
-    name: "Trần Thị Bình",
-    phone: "0912 345 678",
-    principal: 15000000,
-    interest: 800000,
-    paid: 0,
-    status: "due",
-    note: "Ưu tiên liên hệ qua Zalo",
-    color: "#f4a913",
+    name: "Phương An Lão",
+    phone: "093 6187006",
+    color: "#d77b43",
+    address: "Hải Phòng",
+    rate: 0.8,
+    status: "unreminded",
+    disbursements: [
+      { date: "18/10/2025", amount: 330000000 },
+      { date: "23/10/2025", amount: 320000000 },
+    ],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "18/10: 330tr | 23/10: 320tr",
   },
   {
     id: 3,
-    name: "Lê Minh Cường",
-    phone: "0933 466 789",
-    principal: 12000000,
-    interest: 600000,
-    paid: 0,
-    status: "reminded",
-    note: "Đã gửi tin nhắn nhắc nợ",
-    color: "#48a6e8",
+    name: "A Thông - Phú Thọ",
+    phone: "098 2870911",
+    color: "#38a77c",
+    address: "Phú Thọ",
+    rate: 0.8,
+    status: "unreminded",
+    disbursements: [
+      { date: "07/11/2025", amount: 200000000 },
+      { date: "31/12/2025", amount: 10000000 },
+      { date: "09/01/2026", amount: 40000000 },
+      { date: "29/01/2026", amount: 20000000 },
+      { date: "06/02/2026", amount: 30000000 },
+    ],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "07/11: 200tr | 31/12: 10tr | 09/01: 40tr | 29/01: 20tr | 06/02: 30tr",
   },
   {
     id: 4,
-    name: "Phạm Thùy Linh",
-    phone: "0977 888 999",
-    principal: 8000000,
-    interest: 400000,
-    paid: 8400000,
-    status: "paid",
-    note: "Đã hoàn tất kỳ thanh toán",
-    color: "#40aa53",
+    name: "Chú Bộ - Ninh Bình",
+    phone: "096 8854589",
+    color: "#a86ed0",
+    address: "Ninh Bình",
+    rate: 1.0,
+    status: "reminded",
+    disbursements: [{ date: "12/05/2026", amount: 1500000000 }],
+    repayments: [{ date: "10/06/2026", amount: 100000000, note: "Trả gốc" }],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 12/05/2026: 1.5 tỷ | Đã trả gốc 100tr ngày 10/06/2026",
   },
   {
     id: 5,
-    name: "Hoàng Văn Dũng",
-    phone: "0988 777 666",
-    principal: 20000000,
-    interest: 1000000,
-    paid: 0,
-    status: "paused",
-    note: "Tạm hoãn theo thỏa thuận",
-    color: "#858b94",
+    name: "Tuấn Anh - Ninh Bình",
+    phone: "086 6196925",
+    color: "#4aa6bd",
+    address: "Ninh Bình",
+    rate: 0.8,
+    status: "unreminded",
+    disbursements: [{ date: "", amount: 500000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "500tr — chưa có ngày giải ngân",
   },
   {
     id: 6,
-    name: "Võ Ngọc Mai",
-    phone: "0965 222 140",
-    principal: 18500000,
-    interest: 900000,
-    paid: 0,
+    name: "Chú Kiên - Thái Nguyên",
+    phone: "096 3613613",
+    color: "#e05d8b",
+    address: "Thái Nguyên",
+    rate: 0.8,
     status: "unreminded",
-    note: "Liên hệ sau 17 giờ",
-    color: "#a86ed0",
+    disbursements: [{ date: "08/05/2026", amount: 500000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 08/05/2026: 500tr",
+  },
+  {
+    id: 7,
+    name: "A Sang - Bắc Ninh",
+    phone: "094 1380388",
+    color: "#c0392b",
+    address: "Bắc Ninh",
+    rate: 0.8,
+    status: "unreminded",
+    disbursements: [{ date: "05/02/2026", amount: 3500000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 05/02/2026: 3.5 tỷ",
+  },
+  {
+    id: 8,
+    name: "A Bân - Thái Bình",
+    phone: "097 6253558",
+    color: "#7f8c8d",
+    address: "Thái Bình",
+    rate: 1.0,
+    status: "unreminded",
+    disbursements: [{ date: "", amount: 130000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "130tr — chưa có ngày giải ngân",
+  },
+  {
+    id: 9,
+    name: "A Sang - Nghệ An",
+    phone: "",
+    color: "#16a085",
+    address: "Nghệ An",
+    rate: 0.8,
+    status: "reminded",
+    disbursements: [{ date: "18/03/2026", amount: 2800000000 }],
+    repayments: [
+      { date: "23/04/2026", amount: 50000000, note: "Trả gốc" },
+      { date: "12/05/2026", amount: 25000000, note: "Trả gốc" },
+    ],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "18/03: 2.8 tỷ | Đã trả: 50tr (23/04) + 25tr (12/05)",
+  },
+  {
+    id: 10,
+    name: "A Lượng - Quảng Ninh",
+    phone: "093 6681128",
+    color: "#8e44ad",
+    address: "Quảng Ninh",
+    rate: 0.8,
+    status: "unreminded",
+    disbursements: [{ date: "11/12/2025", amount: 150000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 11/12/2025: 150tr",
+  },
+  {
+    id: 11,
+    name: "C Thảo - Thái Nguyên",
+    phone: "035 6425776",
+    color: "#2980b9",
+    address: "Thái Nguyên",
+    rate: 0.8,
+    status: "reminded",
+    disbursements: [{ date: "25/02/2026", amount: 300000000 }],
+    repayments: [{ date: "05/06/2026", amount: 20000000, note: "Trả gốc" }],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "25/02: 300tr | Đã trả gốc 20tr ngày 05/06/2026",
+  },
+  {
+    id: 12,
+    name: "Chị Hoa - Bắc Ninh",
+    phone: "098 3074180",
+    color: "#e67e22",
+    address: "Bắc Ninh",
+    rate: 1.0,
+    status: "unreminded",
+    disbursements: [{ date: "02/04/2026", amount: 700000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 02/04/2026: 700tr",
+  },
+  {
+    id: 13,
+    name: "C Nhung - Ninh Bình",
+    phone: "035 8814826",
+    color: "#27ae60",
+    address: "Ninh Bình",
+    rate: 0.8,
+    status: "unreminded",
+    disbursements: [
+      { date: "31/12/2025", amount: 200000000 },
+      { date: "29/01/2026", amount: 100000000 },
+      { date: "07/02/2026", amount: 100000000 },
+      { date: "21/03/2026", amount: 100000000 },
+      { date: "24/04/2026", amount: 50000000 },
+    ],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "31/12: 200tr | 29/01: 100tr | 07/02: 100tr | 21/03: 100tr | 24/04: 50tr",
+  },
+  {
+    id: 14,
+    name: "Chú Xuân - Ninh Bình",
+    phone: "091 2078484",
+    color: "#1abc9c",
+    address: "Ninh Bình",
+    rate: 0.8,
+    status: "unreminded",
+    disbursements: [{ date: "13/06/2026", amount: 2500000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 13/06/2026: 2.5 tỷ",
+  },
+  {
+    id: 15,
+    name: "Chú Ba - Hải Phòng",
+    phone: "093 1222109",
+    color: "#d35400",
+    address: "Hải Phòng",
+    rate: 1.2,
+    status: "unreminded",
+    disbursements: [
+      { date: "09/05/2026", amount: 200000000 },
+      { date: "12/06/2026", amount: 100000000 },
+    ],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "09/05: 200tr | 12/06: 100tr",
+  },
+  {
+    id: 16,
+    name: "C Dung - Quảng Ninh",
+    phone: "",
+    color: "#2c3e50",
+    address: "Quảng Ninh",
+    rate: 1.2,
+    status: "unreminded",
+    disbursements: [{ date: "04/06/2026", amount: 100000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 04/06/2026: 100tr",
+  },
+  {
+    id: 17,
+    name: "A Ngọc - Phú Thọ",
+    phone: "097 1494599",
+    color: "#95a5a6",
+    address: "Phú Thọ",
+    rate: 0,
+    status: "unreminded",
+    disbursements: [{ date: "05/06/2026", amount: 85600000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 05/06/2026: 85.6tr — chưa có lãi suất",
+  },
+  {
+    id: 18,
+    name: "Chú Nhiên - Phú Bình",
+    phone: "098 5221387",
+    color: "#e74c3c",
+    address: "Phú Bình",
+    rate: 1.2,
+    status: "unreminded",
+    disbursements: [{ date: "20/06/2026", amount: 30000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 20/06/2026: 30tr",
+  },
+  {
+    id: 19,
+    name: "Kiên - Thanh Hoá",
+    phone: "0934522629",
+    color: "#f39c12",
+    address: "Thanh Hoá",
+    rate: 0.8,
+    status: "unreminded",
+    disbursements: [{ date: "06/02/2026", amount: 200000000 }],
+    repayments: [],
+    get principal() {
+      return calcPrincipal(this);
+    },
+    get interest() {
+      return calcMonthlyInterest(this);
+    },
+    get paid() {
+      return this.repayments.reduce((s, r) => s + r.amount, 0);
+    },
+    note: "Giải ngân 06/02/2026: 200tr",
   },
 ];
 
 const DEFAULT_NOTIFICATIONS = [
   {
     id: 1,
-    type: "overdue",
-    title: "Khoản vay quá hạn",
-    message: "Nguyễn Văn An chưa hoàn tất thanh toán kỳ này.",
-    time: "08:30",
+    type: "reminded",
+    title: "Đã trả gốc 100tr",
+    message: "Chú Bộ - Ninh Bình trả gốc 100.000.000 đ ngày 10/06/2026.",
+    time: "10:00",
     read: false,
   },
   {
     id: 2,
     type: "reminded",
-    title: "Đã gửi nhắc nợ",
-    message: "Tin nhắn nhắc nợ đã được tạo cho Lê Minh Cường.",
-    time: "09:15",
+    title: "Đã trả gốc 20tr",
+    message: "C Thảo - Thái Nguyên trả gốc 20.000.000 đ ngày 05/06/2026.",
+    time: "09:00",
     read: false,
   },
   {
     id: 3,
-    type: "paid",
-    title: "Thanh toán thành công",
-    message: "Phạm Thùy Linh đã thanh toán 8.400.000 đ.",
-    time: "10:20",
+    type: "overdue",
+    title: "Khoản nợ lớn đang hoạt động",
+    message: "A Sang - Bắc Ninh: 3.5 tỷ | A Sang - Nghệ An: 2.725 tỷ.",
+    time: "08:30",
     read: true,
   },
   {
     id: 4,
-    type: "paused",
-    title: "Tạm hoãn thanh toán",
-    message: "Hoàng Văn Dũng được chuyển sang trạng thái tạm hoãn.",
-    time: "11:05",
+    type: "paid",
+    title: "Đã trả gốc",
+    message: "A Sang - Nghệ An trả gốc 75tr tổng cộng (23/04 + 12/05).",
+    time: "08:00",
     read: true,
   },
 ];
@@ -141,12 +500,153 @@ const MONTHS = [
 ];
 const WEEKDAYS = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
 
-let customers = loadData(STORAGE_KEYS.customers, DEFAULT_CUSTOMERS).map(
-  (customer) => ({
-    ...customer,
-    status: STATUS[customer.status] ? customer.status : "unreminded",
-  }),
-);
+// ═══════════════════════════════════════════════════════════════
+// HÀM TÍNH TÀI CHÍNH
+// Lãi suất %/tháng, tính trên dư nợ gốc còn lại
+// Thu lãi cố định ngày 10 hằng tháng
+// ═══════════════════════════════════════════════════════════════
+
+function parseDateVN(str) {
+  if (!str || !str.includes("/")) return null;
+  const parts = str.split("/").map(Number);
+  if (
+    parts.length !== 3 ||
+    isNaN(parts[0]) ||
+    isNaN(parts[1]) ||
+    isNaN(parts[2])
+  )
+    return null;
+  return new Date(parts[2], parts[1] - 1, parts[0]);
+}
+
+// Tính tổng gốc đã giải ngân
+function calcTotalDisbursed(customer) {
+  return (customer.disbursements || []).reduce((s, d) => s + d.amount, 0);
+}
+
+// Tính tổng đã trả gốc
+function calcTotalRepaid(customer) {
+  return (customer.repayments || []).reduce((s, r) => s + r.amount, 0);
+}
+
+// Dư nợ gốc còn lại
+function calcPrincipal(customer) {
+  return Math.max(0, calcTotalDisbursed(customer) - calcTotalRepaid(customer));
+}
+
+// Lãi tháng hiện tại = dư nợ × lãi suất
+function calcMonthlyInterest(customer) {
+  if (!customer.rate || customer.rate <= 0) return 0;
+  return (calcPrincipal(customer) * customer.rate) / 100;
+}
+
+// Sinh lịch sử thu lãi theo tháng (mỗi kỳ ngày 10)
+function calcInterestSchedule(customer) {
+  const disbs = (customer.disbursements || [])
+    .filter((d) => d.date)
+    .map((d) => ({ date: parseDateVN(d.date), amount: d.amount }))
+    .filter((d) => d.date)
+    .sort((a, b) => a.date - b.date);
+
+  if (!disbs.length || !customer.rate || customer.rate <= 0) return [];
+
+  const reps = (customer.repayments || [])
+    .filter((r) => r.date)
+    .map((r) => ({ date: parseDateVN(r.date), amount: r.amount }))
+    .filter((r) => r.date)
+    .sort((a, b) => a.date - b.date);
+
+  // Tính dư nợ gốc tại một thời điểm
+  function balanceAt(dt) {
+    let bal = 0;
+    for (const d of disbs) {
+      if (d.date <= dt) bal += d.amount;
+    }
+    for (const r of reps) {
+      if (r.date <= dt) bal -= r.amount;
+    }
+    return Math.max(0, bal);
+  }
+
+  // Ngày 10 đầu tiên sau lần giải ngân đầu tiên
+  const firstDisb = disbs[0].date;
+  let cursor = new Date(firstDisb.getFullYear(), firstDisb.getMonth() + 1, 10);
+  const today = new Date();
+  const schedule = [];
+
+  while (cursor <= today || schedule.length < 1) {
+    // Dư nợ tại đầu kỳ (ngày 9 cùng tháng — trước ngày thu lãi)
+    const checkDate = new Date(
+      cursor.getFullYear(),
+      cursor.getMonth(),
+      9,
+      23,
+      59,
+    );
+    const principal = balanceAt(checkDate);
+    if (principal > 0) {
+      schedule.push({
+        date: new Date(cursor),
+        dateStr: `10/${String(cursor.getMonth() + 1).padStart(2, "0")}/${cursor.getFullYear()}`,
+        principal,
+        interest: Math.round((principal * customer.rate) / 100),
+        rate: customer.rate,
+      });
+    }
+    cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 10);
+    if (cursor.getFullYear() > today.getFullYear() + 1) break;
+  }
+  return schedule;
+}
+
+// Tổng lãi đã thu được (các kỳ đã qua)
+function calcInterestCollected(customer) {
+  const schedule = calcInterestSchedule(customer);
+  const today = new Date();
+  return schedule
+    .filter((k) => k.date <= today)
+    .reduce((s, k) => s + k.interest, 0);
+}
+
+// TOÀN BỘ DATA - kết hợp cả disbursements/repayments vào object phẳng cho khả năng tương thích
+function hydrateCustomer(raw) {
+  // Nếu là object cũ (chỉ có principal số) → giữ nguyên
+  if (typeof raw.principal === "number" && !raw.disbursements) return raw;
+  // Nếu là object mới (có disbursements) → tính toán
+  return {
+    ...raw,
+    principal: calcPrincipal(raw),
+    interest: calcMonthlyInterest(raw),
+    paid: calcTotalRepaid(raw),
+  };
+}
+
+let customers = (() => {
+  // Luôn dùng DEFAULT_CUSTOMERS có disbursements thực tế
+  // (merge status từ localStorage nếu có)
+  const savedStatuses = (() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.customers);
+      if (!raw) return {};
+      const arr = JSON.parse(raw);
+      const map = {};
+      arr.forEach((c) => {
+        if (c.id && c.status) map[c.id] = c.status;
+      });
+      return map;
+    } catch {
+      return {};
+    }
+  })();
+
+  return DEFAULT_CUSTOMERS.map((raw) => {
+    const status = savedStatuses[raw.id] || raw.status || "unreminded";
+    return {
+      ...hydrateCustomer(raw),
+      status: STATUS[status] ? status : "unreminded",
+    };
+  });
+})();
 let notifications = loadData(STORAGE_KEYS.notifications, DEFAULT_NOTIFICATIONS);
 let settings = loadData(STORAGE_KEYS.settings, DEFAULT_SETTINGS);
 let activeCustomerFilter = "all";
@@ -163,7 +663,15 @@ function loadData(key, fallback) {
 }
 
 function saveData(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
+  // Với customers: chỉ lưu {id, status} để không ghi đè dữ liệu thực tế
+  if (key === STORAGE_KEYS.customers && Array.isArray(value)) {
+    localStorage.setItem(
+      key,
+      JSON.stringify(value.map((c) => ({ id: c.id, status: c.status }))),
+    );
+  } else {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
 }
 
 function icon(name) {
@@ -222,31 +730,27 @@ function fullDateText(date) {
 }
 
 function getTotals() {
-  const total = customers.reduce(
-    (sum, customer) => sum + customer.principal + customer.interest,
+  const totalPrincipal = customers.reduce(
+    (sum, c) => sum + (c.principal || 0),
     0,
   );
-  const paid = customers.reduce((sum, customer) => sum + customer.paid, 0);
-  const remaining = Math.max(0, total - paid);
-  const due = customers.filter((customer) =>
-    ["unreminded", "due", "overdue", "reminded"].includes(customer.status),
+  const totalMonthlyInterest = customers.reduce(
+    (sum, c) => sum + (c.interest || 0),
+    0,
+  );
+  const totalRepaid = customers.reduce((sum, c) => sum + (c.paid || 0), 0);
+  const due = customers.filter((c) =>
+    ["unreminded", "due", "overdue", "reminded"].includes(c.status),
   ).length;
-  const unreminded = customers.filter(
-    (customer) => customer.status === "unreminded",
-  ).length;
-  const overdue = customers.filter(
-    (customer) => customer.status === "overdue",
-  ).length;
-  const reminded = customers.filter(
-    (customer) => customer.status === "reminded",
-  ).length;
-  const paidCount = customers.filter(
-    (customer) => customer.status === "paid",
-  ).length;
+  const unreminded = customers.filter((c) => c.status === "unreminded").length;
+  const overdue = customers.filter((c) => c.status === "overdue").length;
+  const reminded = customers.filter((c) => c.status === "reminded").length;
+  const paidCount = customers.filter((c) => c.status === "paid").length;
   return {
-    total,
-    paid,
-    remaining,
+    total: totalPrincipal,
+    paid: totalRepaid,
+    remaining: totalPrincipal,
+    monthlyInterest: totalMonthlyInterest,
     due,
     unreminded,
     overdue,
@@ -366,30 +870,30 @@ function renderDashboard() {
   const totals = getTotals();
   const stats = [
     {
-      label: "Tổng công nợ",
+      label: "Tổng dư nợ gốc",
       value: formatShortMoney(totals.total),
       note: `${customers.length} khách hàng`,
       icon: "wallet",
       tone: "blue",
     },
     {
-      label: "Cần thu kỳ này",
+      label: "Lãi thu tháng này",
+      value: formatShortMoney(totals.monthlyInterest),
+      note: "Tính trên dư nợ còn lại",
+      icon: "chart",
+      tone: "green",
+    },
+    {
+      label: "Cần xử lý",
       value: totals.due,
-      note: "Khách đang chờ xử lý",
+      note: "Khách đang hoạt động",
       icon: "users",
       tone: "orange",
     },
     {
-      label: "Đã nhắc",
+      label: "Đã nhắc / nhận gốc",
       value: totals.reminded,
-      note: "Đã tạo thông báo",
-      icon: "send",
-      tone: "blue",
-    },
-    {
-      label: "Đã thanh toán",
-      value: totals.paidCount,
-      note: formatShortMoney(totals.paid),
+      note: `Đã trả gốc ${formatShortMoney(totals.paid)}`,
       icon: "check",
       tone: "green",
     },
@@ -431,9 +935,9 @@ function renderDashboard() {
           (customer) => `
     <div class="compact-customer" data-customer-id="${customer.id}" role="button" tabindex="0">
       ${customerAvatar(customer)}
-      <div class="compact-customer-info"><strong>${customer.name}</strong><span>${customer.phone}</span></div>
+      <div class="compact-customer-info"><strong>${customer.name}</strong><span>${customer.phone || "Chưa có SĐT"}</span></div>
       ${statusBadge(customer.status)}
-      <strong class="compact-amount">${formatShortMoney(customer.principal + customer.interest - customer.paid)}</strong>
+      <strong class="compact-amount">${formatShortMoney(customer.principal || 0)}</strong>
     </div>
   `,
         )
@@ -451,7 +955,12 @@ function renderCustomers() {
     .toLocaleLowerCase("vi");
   const filtered = customers
     .filter((customer) => {
-      const matchesQuery = [customer.name, customer.phone, customer.note]
+      const matchesQuery = [
+        customer.name,
+        customer.phone || "",
+        customer.note || "",
+        customer.address || "",
+      ]
         .join(" ")
         .toLocaleLowerCase("vi")
         .includes(query);
@@ -476,27 +985,30 @@ function renderCustomers() {
     `${filtered.length} khách hàng`;
   document.getElementById("customer-grid").innerHTML = filtered.length
     ? filtered
-        .map(
-          (customer) => `
+        .map((customer) => {
+          const monthlyInterest = customer.interest || 0;
+          const principal = customer.principal || 0;
+          const rate = customer.rate || 0;
+          return `
     <article class="customer-card" data-customer-id="${customer.id}" style="--avatar-color:${customer.color}" tabindex="0">
       ${customerAvatar(customer)}
       <div class="customer-card-main">
         <h3 class="customer-card-name">${customer.name}</h3>
-        <span class="customer-phone">${customer.phone}</span>
+        <span class="customer-phone">${customer.phone || "Chưa có SĐT"} ${customer.address ? `· ${customer.address}` : ""}</span>
         <div class="loan-meta">
-          <div><span>Số tiền vay</span><strong>${formatMoney(customer.principal)}</strong></div>
-          <div><span>Lãi tháng</span><strong>${formatMoney(customer.interest)}</strong></div>
-          <div><span>Ngày đến hạn</span><strong>Ngày 10 hằng tháng</strong></div>
-          <div><span>Còn phải thu</span><strong>${formatMoney(customer.principal + customer.interest - customer.paid)}</strong></div>
+          <div><span>Dư nợ gốc</span><strong>${formatMoney(principal)}</strong></div>
+          <div><span>Lãi suất</span><strong>${rate > 0 ? rate + "%/tháng" : "Chưa có"}</strong></div>
+          <div><span>Lãi tháng</span><strong class="${monthlyInterest > 0 ? "text-green" : ""}">${formatMoney(monthlyInterest)}</strong></div>
+          <div><span>Đã trả gốc</span><strong>${formatMoney(customer.paid || 0)}</strong></div>
         </div>
       </div>
       <div class="customer-card-actions">
         ${statusSelect(customer)}
-        <a class="icon-button call-button" href="tel:${customer.phone.replace(/\s/g, "")}" aria-label="Gọi ${customer.name}" onclick="event.stopPropagation()">${icon("phone")}</a>
+        ${customer.phone ? `<a class="icon-button call-button" href="tel:${(customer.phone || "").replace(/\s/g, "")}" aria-label="Gọi ${customer.name}" onclick="event.stopPropagation()">${icon("phone")}</a>` : ""}
       </div>
     </article>
-  `,
-        )
+  `;
+        })
         .join("")
     : emptyState(
         "Không tìm thấy khách hàng",
@@ -660,42 +1172,117 @@ function renderSettings() {
 function openCustomerDetail(customerId) {
   const customer = customers.find((item) => item.id === Number(customerId));
   if (!customer) return;
-  const remaining = Math.max(
-    0,
-    customer.principal + customer.interest - customer.paid,
-  );
-  const due = dueDateFor(new Date());
+
+  const rawData =
+    DEFAULT_CUSTOMERS.find((c) => c.id === Number(customerId)) || customer;
+  const disbs = rawData.disbursements || [];
+  const reps = rawData.repayments || [];
+  const principal = calcPrincipal(rawData);
+  const monthlyInterest = calcMonthlyInterest(rawData);
+  const totalDisbursed = calcTotalDisbursed(rawData);
+  const totalRepaid = calcTotalRepaid(rawData);
+  const schedule = calcInterestSchedule(rawData);
+
+  // Lịch giải ngân
+  const disbHtml = disbs.length
+    ? disbs
+        .map(
+          (d) => `
+    <div class="debt-row">
+      <span>${d.date ? `Giải ngân ${d.date}` : "Giải ngân (chưa có ngày)"}</span>
+      <strong class="text-blue">+${formatMoney(d.amount)}</strong>
+    </div>
+  `,
+        )
+        .join("")
+    : `<div class="debt-row"><span>Chưa có thông tin giải ngân</span><strong>—</strong></div>`;
+
+  // Lịch trả gốc
+  const repHtml = reps.length
+    ? reps
+        .map(
+          (r) => `
+    <div class="debt-row">
+      <span>Trả gốc ${r.date}${r.note ? ` · ${r.note}` : ""}</span>
+      <strong class="text-green">-${formatMoney(r.amount)}</strong>
+    </div>
+  `,
+        )
+        .join("")
+    : `<div class="debt-row"><span>Chưa có lần trả gốc nào</span><strong>—</strong></div>`;
+
+  // Lịch thu lãi (5 kỳ gần nhất)
+  const today = new Date();
+  const scheduleHtml = schedule.length
+    ? schedule
+        .slice(-6)
+        .map((k) => {
+          const isPast = k.date <= today;
+          return `<div class="timeline-item" style="--timeline-color:${isPast ? "#0969da" : "#94a3b8"}">
+      <time>${k.dateStr}</time>
+      <strong>${isPast ? "✓" : "○"} Lãi ${formatMoney(k.interest)}</strong>
+      <span>Gốc: ${formatShortMoney(k.principal)} × ${k.rate}%</span>
+    </div>`;
+        })
+        .join("")
+    : `<div class="timeline-item" style="--timeline-color:#94a3b8"><time>—</time><strong>Chưa có lịch lãi</strong></div>`;
+
   document.getElementById("customer-detail-content").innerHTML = `
     <div class="detail-hero">
       <div class="detail-person">
         ${customerAvatar(customer)}
-        <div><h2 id="detail-customer-name">${customer.name}</h2><p>${customer.phone}</p></div>
+        <div>
+          <h2 id="detail-customer-name">${customer.name}</h2>
+          <p>${customer.phone || "Chưa có SĐT"}${customer.address ? ` · ${customer.address}` : ""}</p>
+        </div>
         ${statusSelect(customer, "detail")}
       </div>
     </div>
     <div class="detail-body">
+
       <section class="detail-card">
-        <h3>Thông tin công nợ</h3>
-        <div class="debt-row"><span>Số tiền vay ban đầu</span><strong>${formatMoney(customer.principal)}</strong></div>
-        <div class="debt-row"><span>Lãi hằng tháng</span><strong>${formatMoney(customer.interest)}</strong></div>
-        <div class="debt-row"><span>Ngày đến hạn</span><strong>${dateText(due)} · Lặp hằng tháng</strong></div>
-        <div class="debt-row"><span>Số tiền còn lại</span><strong class="${remaining ? "red" : "green"}">${formatMoney(remaining)}</strong></div>
-        <div class="debt-row"><span>Ghi chú</span><strong>${customer.note || "Không có ghi chú"}</strong></div>
+        <h3>Tổng quan khoản vay</h3>
+        <div class="debt-row"><span>Tổng đã giải ngân</span><strong>${formatMoney(totalDisbursed)}</strong></div>
+        <div class="debt-row"><span>Đã trả gốc</span><strong class="text-green">${formatMoney(totalRepaid)}</strong></div>
+        <div class="debt-row highlight"><span>Dư nợ gốc còn lại</span><strong class="text-red">${formatMoney(principal)}</strong></div>
+        <div class="debt-row"><span>Lãi suất</span><strong>${rawData.rate > 0 ? rawData.rate + "%/tháng" : "Chưa có lãi suất"}</strong></div>
+        <div class="debt-row highlight-green"><span>Lãi thu tháng này</span><strong class="text-green">${formatMoney(monthlyInterest)}</strong></div>
+        <div class="debt-row"><span>Thu lãi ngày</span><strong>10 hằng tháng</strong></div>
+        ${rawData.note ? `<div class="debt-row"><span>Ghi chú</span><strong>${rawData.note}</strong></div>` : ""}
       </section>
+
       <section class="detail-card">
-        <h3>Lịch sử nhắc nhở & thanh toán</h3>
+        <h3>Lịch sử giải ngân</h3>
+        ${disbHtml}
+      </section>
+
+      <section class="detail-card">
+        <h3>Lịch sử trả gốc</h3>
+        ${repHtml}
+      </section>
+
+      <section class="detail-card">
+        <h3>Lịch thu lãi (${schedule.length > 6 ? "6 kỳ gần nhất" : "toàn bộ kỳ"})</h3>
         <div class="timeline">
-          <div class="timeline-item" style="--timeline-color:${customer.status === "paid" ? "#16a34a" : "#ef3038"}"><time>${dateText(due)} 08:30</time><strong>${customer.status === "paid" ? "Đã hoàn tất thanh toán" : "Đến hạn thanh toán kỳ này"}</strong></div>
-          <div class="timeline-item" style="--timeline-color:#0969da"><time>${dateText(new Date(due.getFullYear(), due.getMonth(), 7))} 09:15</time><strong>Đã tạo thông báo nhắc trước hạn</strong></div>
-          <div class="timeline-item" style="--timeline-color:#16a34a"><time>Kỳ thanh toán gần nhất</time><strong>${customer.paid ? `Đã thanh toán ${formatMoney(customer.paid)}` : "Chưa ghi nhận thanh toán"}</strong></div>
+          ${scheduleHtml}
         </div>
+        ${
+          schedule.length > 1
+            ? `<div class="debt-row" style="margin-top:8px;border-top:1px solid #e5e7eb;padding-top:8px">
+          <span>Tổng lãi các kỳ đã qua</span>
+          <strong class="text-green">${formatMoney(schedule.filter((k) => k.date <= today).reduce((s, k) => s + k.interest, 0))}</strong>
+        </div>`
+            : ""
+        }
       </section>
+
       <div class="detail-actions">
-        <a class="detail-action green" href="tel:${customer.phone.replace(/\s/g, "")}">${icon("phone")} Gọi ngay</a>
+        ${customer.phone ? `<a class="detail-action green" href="tel:${(customer.phone || "").replace(/\s/g, "")}">${icon("phone")} Gọi ngay</a>` : ""}
         <button class="detail-action" data-detail-action="remind" data-id="${customer.id}">${icon("send")} Gửi nhắc</button>
-        <button class="detail-action green" data-detail-action="paid" data-id="${customer.id}">${icon("check")} Đánh dấu đã trả</button>
+        <button class="detail-action green" data-detail-action="paid" data-id="${customer.id}">${icon("check")} Đã trả lãi</button>
       </div>
     </div>`;
+
   document.getElementById("customer-modal").hidden = false;
   document.body.style.overflow = "hidden";
 }

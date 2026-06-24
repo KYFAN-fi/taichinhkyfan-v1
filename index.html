@@ -5,13 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0969da">
-  <meta name="description" content="Ứng dụng quản lý và nhắc thu nợ tự động vào ngày 10 hằng tháng.">
+  <meta name="description" content="Ứng dụng quản lý và nhắc thu phí tự động vào ngày 10 hằng tháng.">
   <meta name="application-name" content="Quản lý khách hàng tài chính KYFAN">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Quản lý khách hàng tài chính KYFAN">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>M10 Thu Nợ</title>
+  <title>M10 Thu Phí</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
@@ -131,7 +131,7 @@
         <span class="brand-mark">K</span>
         <span class="brand-copy">
           <strong>KYFAN</strong>
-          <small>Quản lý thu nợ</small>
+          <small>Quản lý thu phí</small>
         </span>
       </a>
 
@@ -149,7 +149,7 @@
         <button class="nav-item" data-view-target="calendar">
           <svg>
             <use href="#i-calendar"></use>
-          </svg><span>Lịch thu nợ</span>
+          </svg><span>Lịch thu phí</span>
         </button>
         <button class="nav-item" data-view-target="notifications">
           <svg>
@@ -185,7 +185,7 @@
     <main class="main-content">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Quản lý dư nợ</p>
+          <p class="eyebrow">Quản lý tài chính</p>
           <h1 id="desktop-page-title">Tổng quan hôm nay</h1>
         </div>
         <div class="topbar-actions">
@@ -220,7 +220,7 @@
           <div class="dashboard-hero">
             <div class="hero-copy">
               <span class="hero-kicker"><i></i> Lịch nhắc đang hoạt động</span>
-              <h2>Thu nợ đúng hẹn,<br><span>nhẹ việc mỗi tháng.</span></h2>
+              <h2>Thu phí đúng hẹn,<br><span>nhẹ việc mỗi tháng.</span></h2>
               <p>M10 tự động tổng hợp khách đến hạn và gửi nhắc vào ngày 10 hằng tháng.</p>
               <div class="hero-actions">
                 <button class="primary-button primary-button-light" id="hero-send-reminder">
@@ -250,7 +250,7 @@
             <article class="card calendar-summary">
               <div class="card-heading">
                 <div>
-                  <p class="eyebrow">Lịch thu nợ</p>
+                  <p class="eyebrow">Lịch thu phí</p>
                   <h3 id="mini-calendar-title">Tháng --</h3>
                 </div>
                 <button class="text-button" data-view-target="calendar">Xem lịch <svg>
@@ -259,7 +259,7 @@
               </div>
               <div id="mini-calendar" class="mini-calendar"></div>
               <div class="calendar-legend">
-                <span><i class="legend-dot reminder"></i> Ngày nhắc nợ</span>
+                <span><i class="legend-dot reminder"></i> Ngày nhắc phí</span>
                 <span><i class="legend-dot today"></i> Hôm nay</span>
               </div>
             </article>
@@ -282,7 +282,7 @@
         <section class="app-view" id="view-customers" data-view="customers">
           <div class="view-heading">
             <div>
-              <p class="eyebrow">Danh bạ công nợ</p>
+              <p class="eyebrow">Danh bạ công phí</p>
               <h2>Danh sách khách hàng</h2>
               <p>Quản lý khoản vay, trạng thái và liên hệ của từng khách hàng.</p>
             </div>
@@ -321,8 +321,8 @@
           <div class="view-heading">
             <div>
               <p class="eyebrow">Theo dõi tiến độ</p>
-              <h2>Lịch & trạng thái thu nợ</h2>
-              <p>Ngày 10 được cố định là ngày gửi nhắc nợ chính thức mỗi tháng.</p>
+              <h2>Lịch & trạng thái thu phí</h2>
+              <p>Ngày 10 được cố định là ngày gửi nhắc phí chính thức mỗi tháng.</p>
             </div>
             <div class="month-controls">
               <button class="icon-button" id="calendar-prev" aria-label="Tháng trước"><svg>
@@ -365,7 +365,7 @@
             <div>
               <p class="eyebrow">Cập nhật hoạt động</p>
               <h2>Thông báo & báo cáo</h2>
-              <p>Mọi lần nhắc nợ và thanh toán được lưu lại tại đây.</p>
+              <p>Mọi lần nhắc phí và thanh toán được lưu lại tại đây.</p>
             </div>
             <button class="secondary-button" id="mark-all-read"><svg>
                 <use href="#i-check"></use>
@@ -490,7 +490,7 @@
                     </svg></div>
                   <div>
                     <h3>Lịch nhắc trong ứng dụng</h3>
-                    <p>Thiết lập thời điểm hệ thống tạo nhắc nợ trong app.</p>
+                    <p>Thiết lập thời điểm hệ thống tạo nhắc phí trong app.</p>
                   </div>
                 </div>
                 <div class="setting-row">
@@ -598,7 +598,7 @@
                     <use href="#i-bell"></use>
                   </svg></div>
                 <div><strong>Bật thông báo trên thiết bị</strong>
-                  <p>Cho phép trình duyệt hiện nhắc nợ vào ngày 10 khi trang đang mở.</p>
+                  <p>Cho phép trình duyệt hiện nhắc phí vào ngày 10 khi trang đang mở.</p>
                 </div>
                 <button class="secondary-button" id="enable-browser-notifications">Cho phép</button>
               </article>
