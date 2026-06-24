@@ -53,7 +53,7 @@ const DEFAULT_CUSTOMERS = [
       { date: "18/10/2025", amount: 330000000 },
       { date: "23/10/2025", amount: 320000000 },
     ],
-    repayments: [],
+    repayments: [{ date: "10/11/2025", amount: 10000000, note: "Trả gốc" }],
     get principal() {
       return calcPrincipal(this);
     },
@@ -205,11 +205,12 @@ const DEFAULT_CUSTOMERS = [
     address: "Nghệ An",
     rate: 0.8,
     status: "reminded",
-    disbursements: [{ date: "18/03/2026", amount: 2800000000 }],
-    repayments: [
-      { date: "23/04/2026", amount: 50000000, note: "Trả gốc" },
-      { date: "12/05/2026", amount: 25000000, note: "Trả gốc" },
+    disbursements: [
+      { date: "18/03/2026", amount: 2800000000 },
+      { date: "23/04/2026", amount: 50000000 },
+      { date: "12/05/2026", amount: 25000000 },
     ],
+    repayments: [],
     get principal() {
       return calcPrincipal(this);
     },
@@ -250,8 +251,11 @@ const DEFAULT_CUSTOMERS = [
     address: "Thái Nguyên",
     rate: 0.8,
     status: "reminded",
-    disbursements: [{ date: "25/02/2026", amount: 300000000 }],
-    repayments: [{ date: "05/06/2026", amount: 20000000, note: "Trả gốc" }],
+    disbursements: [
+      { date: "25/02/2026", amount: 300000000 },
+      { date: "05/06/2026", amount: 20000000 },
+    ],
+    repayments: [],
     get principal() {
       return calcPrincipal(this);
     },
